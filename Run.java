@@ -8,5 +8,11 @@ class Run{
        tMin = mins;
        tSec = secs;
        distance = dist;
+       
+       
+    }
+    
+    public int getTime(){
+    	return tMin;
     }
 }
