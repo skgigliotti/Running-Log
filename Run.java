@@ -2,6 +2,7 @@ class Run{
     private int tMin;
     private int tSec;
     private double distance;
+    private String date;
 
     public Run(double dist, int mins, int secs){
 
@@ -12,7 +13,21 @@ class Run{
        
     }
     
-    public int getTime(){
+    public int getMin(){
     	return tMin;
     }
+    
+    public double getDistance(){
+    	return distance;
+    }
+    
+    public int getSec(){
+    	return tSec;
+    }
+    
+    public String getDate(){
+    	return date;
+    }
+    
+    
 }
