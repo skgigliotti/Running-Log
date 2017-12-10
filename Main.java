@@ -11,7 +11,8 @@ import javax.swing.JFrame;
 class Main{
 	
 	 private static boolean fileExists; // flag
-	 
+	 public static BufferedWriter writer;
+	 public static BufferedReader reader;
 	 
 	 
 	 
@@ -20,7 +21,7 @@ class Main{
 	  */
 	 private static void windowSetUp(){
 		 JFrame.setDefaultLookAndFeelDecorated(true);
-	    	Window frame = new Window();
+	    	Window frame = new Window(writer);
 	        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	         
 
@@ -44,8 +45,8 @@ class Main{
 	    	//TODO: get input from user
 	    	Run run = new Run(3.55, 34, 12);
 	        
-	        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
-	        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+	        writer = new BufferedWriter(new FileWriter(fileName, true));
+	        reader = new BufferedReader(new FileReader(fileName));
 	        
 	        createUserRun();
 	    
