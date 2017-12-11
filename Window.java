@@ -1,11 +1,14 @@
 import java.awt.FlowLayout;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.IOException;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,13 +28,12 @@ public class Window extends JFrame{
 	JLabel jMins = new JLabel();
 	JButton submit = new JButton("submit");
 	BufferedWriter writer;
+	JLabel item1;
 	
 	
 	public Window(BufferedWriter writ){
-		 super("Run");
-		 setLayout(new FlowLayout());
-		 
-		 
+
+
 		 JLabel date = new JLabel(getDate());
 		 writer = writ;
 	
@@ -40,6 +42,13 @@ public class Window extends JFrame{
 		 add(panel1);
 		 add(jMins);
 		 panel1.add(submit);
+
+		 item1 = new JLabel(getDate());
+		 
+		 item1.setToolTipText("hover"); 
+		
+		 add(item1);
+
 	}
 	
 	
@@ -55,6 +64,7 @@ public class Window extends JFrame{
 	}
 	
 	
+
 	
 	/**
 	 * This method creates text fields for the minutes and seconds
@@ -84,5 +94,5 @@ public class Window extends JFrame{
 		});
 	}
 	
-	
+
 }
