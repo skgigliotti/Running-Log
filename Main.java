@@ -14,14 +14,14 @@ class Main{
 
 	    public static void MakeTextFile(String fileName) throws IOException {
 	    	//TODO: get input from user
-	    	Run run = new Run(3.55, 34, 12);
+	    	
 	        
 	        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
 	        BufferedReader reader = new BufferedReader(new FileReader(fileName));
 	        
 	        
 	    
-	       writer.append(run.getDistance() + " " + run.getMin() + ":" + run.getSec());
+	      // writer.append(run.getDistance() + " " + run.getMin() + ":" + run.getSec());
 	        	
 	        
 	        
@@ -29,7 +29,7 @@ class Main{
 	    }
 
 	public static void main(String[] args) throws IOException {
-		Run run = new Run(3, 27, 22);
+		
 		int year = 2017;
 		MakeTextFile("2017.txt");
 		
