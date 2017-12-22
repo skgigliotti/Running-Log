@@ -54,7 +54,7 @@ class Main{
 		int secs = scan.nextInt();
 		
 		
-		System.out.print("Distance run: ");
+		System.out.print("Distance run (mi): ");
 		double dist = scan.nextDouble();
 		
 		System.out.print("On a scale of 1-5, how tired are you? : ");

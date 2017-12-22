@@ -30,7 +30,7 @@ class Run{
        distance = dist;
        mood = mind;
        exhaustion = tiredness;
-       pace = distance/getComboTime();
+       
        
        
     }
@@ -45,10 +45,11 @@ class Run{
     	return tMin + secondsFrac;
     }
     /**
-     * This method returns the pace of the run
+     * This method returns the pace of the run minutes/mi
      * @return double pace of the run
      */
     public double getPace(){
+    	pace = getComboTime()/distance;
     	return pace;
     }
     
