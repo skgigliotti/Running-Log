@@ -1,8 +1,6 @@
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -13,22 +11,30 @@ class Main{
 	 private static boolean fileExists; // flag
 	 private static Scanner scan = new Scanner(System.in);
 
-	    
-	 public static void MakeTextFile(String fileName) throws IOException {
-	    	//TODO: check for preexisting file
-	        
-	        BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true));
-	        BufferedReader reader = new BufferedReader(new FileReader(fileName));
-	        
-	        
-	    
-	      // writer.append(run.getDistance() + " " + run.getMin() + ":" + run.getSec());
-	        	
-	        
+	/**
+	 * This method creates a file (if it does not exist yet) and adds the new run as a line
+	 * with the date, distance run, time, pace, tiredness, and mood
+	 *  (yyyy/mm/dd    dist    min:sec    pace    exhaustion    mood)    
+	 *  
+	 * @param fileName
+	 * @param run
+	 * @throws IOException
+	 */
+	 public static void addRunToFile(String fileName, Run run) throws IOException {
+	    	//TODO: format seconds
+	   
+	        PrintWriter writer = new PrintWriter(new FileWriter(fileName, true));
+	        writer.println(getDateToday() + "    " + run.getDistance() + "    " +
+	        		run.getMin() + ":" + run.getSec() + "    " + run.getPace()+ "    "+ run.getExhaustion() + "    " + run.getMood());
+	       
+	      
 	        
 	        writer.close();
 	    }
-	
+/**
+ * This method gets today's current date
+ * @return String today's date
+ */
    public static String getDateToday(){
 	   DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
 	   Date dateToday = new Date();
@@ -36,7 +42,7 @@ class Main{
    }
 	 /**
 	 * This method creates a new run based on user input. 
-	 * @return
+	 * @return new Run with parameters filled
 	 */
 	public static Run newRun(){
 		 
@@ -68,12 +74,12 @@ class Main{
 	public static void main(String[] args) throws IOException {
 		//print today's date
 		System.out.println(getDateToday());
-		int year = 2017;
+		String year = "2017";
 		
 		//create new run
-		newRun();
+		Run run = newRun();
 		
-		//MakeTextFile("2017.txt");
+		addRunToFile(year + ".txt", run);
 		
 		
 
