@@ -1,3 +1,5 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -10,6 +12,8 @@ class Main{
 	
 	 private static boolean fileExists; // flag
 	 private static Scanner scan = new Scanner(System.in);
+	 private static double totalPace;
+	 private static int numRuns;
 
 	/**
 	 * This method creates a file (if it does not exist yet) and adds the new run as a line
@@ -71,16 +75,46 @@ class Main{
 		return myRun;
 	}
 
+	
+	public static void readData(String file) throws FileNotFoundException{
+		Scanner scanner = new Scanner(new FileInputStream(file), "UTF-8");
+		for (int i = 0; scanner.hasNext(); i++){
+			  String nextPace = scanner.next();
+			  if(i % 6 == 3){
+				  numRuns++;
+				  totalPace += Double.parseDouble(nextPace);
+				  
+			  }
+		      
+		      
+		      
+		}
+		System.out.println(totalPace);
+		scanner.close();
+		
+	}
+	
+	public static double getAvg(double total, int numNums){
+		
+		return (total / numNums);
+		
+	}
+	
+	public static void processData(){
+		getAvg(totalPace, numRuns);
+	}
+	
 	public static void main(String[] args) throws IOException {
 		//print today's date
 		System.out.println(getDateToday());
 		String year = "2017";
 		
 		//create new run
-		Run run = newRun();
+		//Run run = newRun();
 		
-		addRunToFile(year + ".txt", run);
-		
+		//addRunToFile(year + ".txt", run);
+		readData("2017.txt");
+		System.out.println(getAvg(totalPace,numRuns));
 		
 
 		
