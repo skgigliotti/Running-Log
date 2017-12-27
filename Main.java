@@ -8,33 +8,19 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
+import javax.swing.plaf.synth.SynthSpinnerUI;
+
 class Main{
 	
 	 private static boolean fileExists; // flag
 	 private static Scanner scan = new Scanner(System.in);
-	 private static double totalPace;
+	 private static double totalPace = 0;
+	 private static double totalDist = 0;
+	 private static double totalMood = 0;
+	 private static double totalExhaust = 0;
 	 private static int numRuns;
 
-	/**
-	 * This method creates a file (if it does not exist yet) and adds the new run as a line
-	 * with the date, distance run, time, pace, tiredness, and mood
-	 *  (yyyy/mm/dd    dist    min:sec    pace    exhaustion    mood)    
-	 *  
-	 * @param fileName
-	 * @param run
-	 * @throws IOException
-	 */
-	 public static void addRunToFile(String fileName, Run run) throws IOException {
-	    	//TODO: format seconds
-	   
-	        PrintWriter writer = new PrintWriter(new FileWriter(fileName, true));
-	        writer.println(getDateToday() + "    " + run.getDistance() + "    " +
-	        		run.getMin() + ":" + run.getSec() + "    " + run.getPace()+ "    "+ run.getExhaustion() + "    " + run.getMood());
-	       
-	      
-	        
-	        writer.close();
-	    }
+	
 /**
  * This method gets today's current date
  * @return String today's date
@@ -74,22 +60,54 @@ class Main{
 		
 		return myRun;
 	}
+	
+	/**
+	 * This method creates a file (if it does not exist yet) and adds the new run as a line
+	 * with the date, distance run, time, pace, tiredness, and mood
+	 *  (yyyy/mm/dd    dist    min:sec    pace    exhaustion    mood)    
+	 *  
+	 * @param fileName
+	 * @param run
+	 * @throws IOException
+	 */
+	 public static void addRunToFile(String fileName, Run run) throws IOException {
+	    	//TODO: format seconds
+	   
+	        PrintWriter writer = new PrintWriter(new FileWriter(fileName, true));
+	        writer.println(getDateToday() + "    " + run.getDistance() + "    " +
+	        		run.getComboTime() + "    " + run.getPace()+ "    "+ run.getExhaustion() + "    " + run.getMood());
+	       
+	      
+	        
+	        writer.close();
+	    }
 
 	
 	public static void readData(String file) throws FileNotFoundException{
-		Scanner scanner = new Scanner(new FileInputStream(file), "UTF-8");
+		Scanner scanner = new Scanner(new FileInputStream(file));
 		for (int i = 0; scanner.hasNext(); i++){
-			  String nextPace = scanner.next();
+			  String next = scanner.next();
 			  if(i % 6 == 3){
 				  numRuns++;
-				  totalPace += Double.parseDouble(nextPace);
+				  totalPace += Double.parseDouble(next);
 				  
+			  }
+			  
+			  if(i % 6 == 1){
+				  
+				  totalDist += Double.parseDouble(next);
+			  }
+			  
+              if(i % 6 == 4){
+				  
+				  totalMood += Double.parseDouble(next);
 			  }
 		      
 		      
 		      
 		}
-		System.out.println(totalPace);
+		System.out.println(totalDist);
+		
 		scanner.close();
 		
 	}
@@ -101,7 +119,10 @@ class Main{
 	}
 	
 	public static void processData(){
-		getAvg(totalPace, numRuns);
+		//TODO: formatting
+		System.out.println(getAvg(totalPace,numRuns));
+		System.out.println(getAvg(totalDist,numRuns));
+		System.out.println(getAvg(totalMood, numRuns));
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -110,11 +131,11 @@ class Main{
 		String year = "2017";
 		
 		//create new run
-		//Run run = newRun();
+		Run run = newRun();
 		
-		//addRunToFile(year + ".txt", run);
+		addRunToFile(year + ".txt", run);
 		readData("2017.txt");
-		System.out.println(getAvg(totalPace,numRuns));
+		processData();
 		
 
 		

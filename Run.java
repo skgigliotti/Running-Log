@@ -41,7 +41,7 @@ class Run{
      * @return double of comboTime
      */
     public double getComboTime() {
-    	double secondsFrac = tSec/60;
+    	double secondsFrac = tSec/60.0;
     	return tMin + secondsFrac;
     }
     /**
