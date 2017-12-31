@@ -18,6 +18,7 @@ class Main{
 	 private static double totalDist = 0;
 	 private static double totalMood = 0;
 	 private static double totalExhaust = 0;
+	 private static double totalTime = 0;
 	 private static int numRuns;
 
 	
@@ -85,28 +86,23 @@ class Main{
 	
 	public static void readData(String file) throws FileNotFoundException{
 		Scanner scanner = new Scanner(new FileInputStream(file));
-		for (int i = 0; scanner.hasNext(); i++){
-			  String next = scanner.next();
-			  if(i % 6 == 3){
-				  numRuns++;
-				  totalPace += Double.parseDouble(next);
-				  
-			  }
+		for (int i = 0; scanner.hasNextLine(); i++){
 			  
-			  if(i % 6 == 1){
-				  
-				  totalDist += Double.parseDouble(next);
-			  }
+			  scanner.next();
 			  
-              if(i % 6 == 4){
-				  
-				  totalMood += Double.parseDouble(next);
-			  }
+			  totalDist+=Double.parseDouble(scanner.next());
+			  totalTime+=Double.parseDouble(scanner.next());
+			  totalPace+=Double.parseDouble(scanner.next());
+			  totalExhaust+=Double.parseDouble(scanner.next());
+			  totalMood+=Double.parseDouble(scanner.next());
+			  
+		      numRuns++;
+			  scanner.nextLine();  
 		      
 		      
 		      
 		}
-		System.out.println(totalDist);
+		
 		
 		scanner.close();
 		
@@ -118,11 +114,14 @@ class Main{
 		
 	}
 	
-	public static void processData(){
+	public static void processData(String year){
 		//TODO: formatting
-		System.out.println(getAvg(totalPace,numRuns));
-		System.out.println(getAvg(totalDist,numRuns));
-		System.out.println(getAvg(totalMood, numRuns));
+		System.out.println("Averges for the Year " + year);
+		System.out.println("Pace:" + getAvg(totalPace,numRuns));
+		System.out.println("Distance:" + getAvg(totalDist,numRuns));
+		System.out.println("Time Run:" + getAvg(totalTime,numRuns));
+		System.out.println("Mood:" + getAvg(totalMood, numRuns));
+		System.out.println("Tiredness:" + getAvg(totalExhaust, numRuns));
 	}
 	
 	public static void main(String[] args) throws IOException {
@@ -134,8 +133,8 @@ class Main{
 		Run run = newRun();
 		
 		addRunToFile(year + ".txt", run);
-		readData("2017.txt");
-		processData();
+		readData(year + ".txt");
+		processData(year);
 		
 
 		
