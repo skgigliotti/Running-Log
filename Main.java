@@ -36,7 +36,7 @@ class Main{
 	 * @return new Run with parameters filled
 	 */
 	public static Run newRun(){
-		 
+		 //TODO: catching input errors
 		
 		System.out.print("Minutes run: ");
 		int mins = scan.nextInt();
@@ -83,7 +83,11 @@ class Main{
 	        writer.close();
 	    }
 
-	
+	/**
+	 * Reads data from the file containing the runs and adds up totals for each category.
+	 * @param file String of file name containing the runs
+	 * @throws FileNotFoundException
+	 */
 	public static void readData(String file) throws FileNotFoundException{
 		Scanner scanner = new Scanner(new FileInputStream(file));
 		for (int i = 0; scanner.hasNextLine(); i++){
@@ -108,12 +112,21 @@ class Main{
 		
 	}
 	
+	/**
+	 * This method is used to average different categories of data (distance, time, etc)
+	 * @param total
+	 * @param numNums
+	 * @return the average based on the number of runs
+	 */
 	public static double getAvg(double total, int numNums){
 		
 		return (total / numNums);
 		
 	}
-	
+	/**
+	 * This method averages each category of data and prints out the results for the user.
+	 * @param year
+	 */
 	public static void processData(String year){
 		//TODO: formatting
 		System.out.println("Averges for the Year " + year);
@@ -123,6 +136,7 @@ class Main{
 		System.out.println("Mood:" + getAvg(totalMood, numRuns));
 		System.out.println("Tiredness:" + getAvg(totalExhaust, numRuns));
 	}
+	
 	
 	public static void main(String[] args) throws IOException {
 		//print today's date
