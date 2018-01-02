@@ -3,12 +3,19 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
 import javax.swing.plaf.synth.SynthSpinnerUI;
+
+import com.mysql.jdbc.Statement;
 
 class Main{
 	
@@ -137,19 +144,118 @@ class Main{
 		System.out.println("Tiredness:" + getAvg(totalExhaust, numRuns));
 	}
 	
+	public static void analyzeData( ){
+		
+	}
 	
-	public static void main(String[] args) throws IOException {
+	public static Connection getConnection() throws Exception{
+		try{
+			
+			String driver = "com.mysql.jdbc.Driver";
+			String url = "jdbc:mysql://localhost:3306/myData";
+			String username = "root";
+			String password = "runningLog";
+			
+			Class.forName(driver);
+			
+			Connection con = DriverManager.getConnection(url,username,password);
+			
+			System.out.println("Connected");
+			
+			
+			return con;
+			
+		}
+		
+		catch(Exception e){
+			System.out.println(e);
+			
+		}
+		
+		return null;
+	}
+	
+	public static void createTable() throws Exception{
+		try{
+			
+			Connection con = getConnection();
+			String createTable = "CREATE TABLE IF NOT EXISTS runs(id int NOT NULL AUTO_INCREMENT, date varchar(200),distance varChar(5), time varChar(5), tiredness char(1), mood char(1), PRIMARY KEY(id))";
+			PreparedStatement create = con.prepareStatement(createTable);
+			create.executeUpdate();
+			
+		}
+		catch(Exception e){
+			System.out.println(e);
+			
+		}
+		finally{
+			System.out.println("Table created");
+		}
+	}
+	
+	public static void post() throws Exception{
+		
+		//just a test run, to be changed to parameters
+		final String date = "2017";
+		final String distance = "2.5";
+		final String time = "20.5";
+		final String tiredness = "3";
+		final String mood = "4";
+				
+		try{
+		   Connection con = getConnection();
+		   String insert = "INSERT INTO runs (date, distance, time, tiredness, mood) VALUES(" + date + "," + distance + "," + time + "," + tiredness + "," + mood + ")";
+		   PreparedStatement posted = con.prepareStatement(insert);
+		   posted.executeUpdate();
+		}
+		
+		catch (Exception e){
+			System.out.println(e);
+			
+		}
+		
+		finally{
+			System.out.println("Insert complete");
+		}
+	}
+	
+	public static ArrayList<String> get() throws Exception{
+		try{
+			Connection con = getConnection();
+			 PreparedStatement statement = con.prepareStatement("SELECT * FROM run");
+			 ResultSet result = statement.executeQuery();
+			 ArrayList array = new ArrayList<String>();
+			 while(result.next()){
+				 System.out.print(result.getString("date"));
+				 
+				 array.add(result.getString("date"));
+			 }
+			 System.out.println("All records selected");
+			 return array;
+		}
+		
+		catch(Exception e){
+		   System.out.println(e);
+		}
+		return null;
+	}
+	
+	public static void main(String[] args) throws Exception {
 		//print today's date
-		System.out.println(getDateToday());
-		String year = "2017";
+//		System.out.println(getDateToday());
+//		String year = "2017";
+//		
+//		//create new run
+//		Run run = newRun();
+//		
+//		addRunToFile(year + ".txt", run);
+//		readData(year + ".txt");
+//		processData(year);
 		
-		//create new run
-		Run run = newRun();
-		
-		addRunToFile(year + ".txt", run);
-		readData(year + ".txt");
-		processData(year);
-		
+		//getConnection();
+		createTable();
+		post();
+		//get();
 
 		
 	}
