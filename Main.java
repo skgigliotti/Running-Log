@@ -34,7 +34,7 @@ class Main{
  * @return String today's date
  */
    public static String getDateToday(){
-	   DateFormat format = new SimpleDateFormat("yyyy/MM/dd");
+	   DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 	   Date dateToday = new Date();
 	   return format.format(dateToday);
    }
@@ -182,7 +182,7 @@ class Main{
 		try{
 			
 			Connection con = getConnection();
-			String createTable = "CREATE TABLE IF NOT EXISTS myRuns(id int NOT NULL AUTO_INCREMENT, date varchar(200),distance varChar(5), time varChar(5), pace varChar(5), tiredness char(1), mood char(1), PRIMARY KEY(id))";
+			String createTable = "CREATE TABLE IF NOT EXISTS log(id int NOT NULL AUTO_INCREMENT, date varchar(10),distance varChar(5), time varChar(5), pace varChar(5), tiredness char(1), mood char(1), PRIMARY KEY(id))";
 			PreparedStatement create = con.prepareStatement(createTable);
 			create.executeUpdate();
 			
@@ -199,16 +199,16 @@ class Main{
 	public static void addRun(Run run) throws Exception{
 		
 		//TODO: to be changed to parameters
-		final String date = getDateToday();
+		
 		final String distance = Double.toString(run.getDistance());
-		final String time = Double.toString(run.getComboTime());
-		final String pace = Double.toString(run.getPace());
+		final String time = run.getComboTime();
+		final String pace = run.getPace();
 		final String tiredness = Integer.toString(run.getExhaustion());
 		final String mood = Integer.toString(run.getMood());
 				
 		try{
 		   Connection con = getConnection();
-		   String insert = "INSERT INTO myRuns (date, distance, time, pace, tiredness, mood) VALUES(" + date + "," + distance + "," + time + "," + pace + "," + tiredness + "," + mood + ")";
+		   String insert = "INSERT INTO log (date, distance, time, pace, tiredness, mood) VALUES(" + "CURDATE()"  + "," + distance + "," + time + "," + pace + "," + tiredness + "," + mood + ")";
 		   PreparedStatement posted = con.prepareStatement(insert);
 		   posted.executeUpdate();
 		}
@@ -255,12 +255,8 @@ class Main{
 //		
 //		//create new run
 		Run run = newRun();
-//		
-//		addRunToFile(year + ".txt", run);
-//		readData(year + ".txt");
-//		processData(year);
+
 		
-		//getConnection();
 		createTable();
 		addRun(run);
 		//get();

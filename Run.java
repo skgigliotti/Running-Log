@@ -1,4 +1,4 @@
-
+import java.text.DecimalFormat;
 /**
  * This class contains all the information
  * associated with an individual run
@@ -12,9 +12,9 @@ class Run{
     private double distance;
     private String date;
     private int mood;
-    private double pace;
+    private String pace;
     private int exhaustion;
-    
+    DecimalFormat format = new DecimalFormat("##.00");
     /**
      * 
      * @param dist double total distance run
@@ -40,16 +40,16 @@ class Run{
      * as integers) into a single doubleand returns the value
      * @return double of comboTime
      */
-    public double getComboTime() {
+    public String getComboTime() {
     	double secondsFrac = tSec/60.0;
-    	return tMin + secondsFrac;
+    	return format.format(tMin + secondsFrac);
     }
     /**
-     * This method returns the pace of the run minutes/mi
+     * This method returns the pace of the run mins/mi
      * @return double pace of the run
      */
-    public double getPace(){
-    	pace = getComboTime()/distance;
+    public String getPace(){
+    	pace = format.format(((tSec/60.0) + tMin)/distance);
     	return pace;
     }
     
