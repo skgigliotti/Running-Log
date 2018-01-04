@@ -154,7 +154,7 @@ class Main{
 		try{
 			
 			String driver = "com.mysql.jdbc.Driver";
-			String url = "jdbc:mysql://localhost:3306/myData";
+			String url = "jdbc:mysql://localhost:3306/myData?autoReconnect=true&useSSL=false";
 			String username = "root";
 			System.out.println("Please enter your password to acess the database.");
 			String password = scan.next();
