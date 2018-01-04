@@ -1,8 +1,5 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,13 +10,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-import javax.swing.plaf.synth.SynthSpinnerUI;
-
-import com.mysql.jdbc.Statement;
-
 class Main{
 	
-	 private static boolean fileExists; // flag
+	 
 	 private static Scanner scan = new Scanner(System.in);
 	 private static double totalPace = 0;
 	 private static double totalDist = 0;
@@ -69,26 +62,7 @@ class Main{
 		return myRun;
 	}
 	
-	/**
-	 * This method creates a file (if it does not exist yet) and adds the new run as a line
-	 * with the date, distance run, time, pace, tiredness, and mood
-	 *  (yyyy/mm/dd    dist    min:sec    pace    exhaustion    mood)    
-	 *  
-	 * @param fileName
-	 * @param run
-	 * @throws IOException
-	 */
-//	 public static void addRunToFile(String fileName, Run run) throws IOException {
-//	    	//TODO: format seconds
-//	   
-//	        PrintWriter writer = new PrintWriter(new FileWriter(fileName, true));
-//	        writer.println(getDateToday() + "    " + run.getDistance() + "    " +
-//	        		run.getComboTime() + "    " + run.getPace()+ "    "+ run.getExhaustion() + "    " + run.getMood());
-//	       
-//	      
-//	        
-//	        writer.close();
-//	    }
+	
 
 	/**
 	 * Reads data from the file containing the runs and adds up totals for each category.
@@ -198,7 +172,7 @@ class Main{
 	
 	public static void addRun(Run run) throws Exception{
 		
-		//TODO: to be changed to parameters
+
 		
 		final String distance = Double.toString(run.getDistance());
 		final String time = run.getComboTime();
@@ -251,7 +225,7 @@ class Main{
 	public static void main(String[] args) throws Exception {
 		//print today's date
 		System.out.println(getDateToday());
-//		String year = "2017";
+
 //		
 //		//create new run
 		Run run = newRun();
