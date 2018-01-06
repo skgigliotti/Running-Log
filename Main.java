@@ -118,10 +118,13 @@ class Main{
 		System.out.println("Tiredness:" + getAvg(totalExhaust, numRuns));
 	}
 	
-	public static void analyzeData( ){
-		
-	}
 	
+	
+	/**
+	 * This class connects to the local host w/o SSL
+	 * @return Connection the connection to the local host
+	 * @throws Exception
+	 */
 	public static Connection getConnection() throws Exception{
 		Scanner scan = new Scanner(System.in);
 		//create interface here?
@@ -152,12 +155,17 @@ class Main{
 		return null;
 	}
 	
-	public static void createTable() throws Exception{
+	/**
+	 * This method creates a new log for the database if one is not already created.
+	 * @param con Database to connect to
+	 * @throws Exception
+	 */
+	public static void createLog(Connection con) throws Exception{
 		try{
 			
-			Connection con = getConnection();
-			String createTable = "CREATE TABLE IF NOT EXISTS log(id int NOT NULL AUTO_INCREMENT, date varchar(10),distance varChar(5), time varChar(5), pace varChar(5), tiredness char(1), mood char(1), PRIMARY KEY(id))";
-			PreparedStatement create = con.prepareStatement(createTable);
+			
+			String createLog = "CREATE TABLE IF NOT EXISTS log(id int NOT NULL AUTO_INCREMENT, date varchar(10),distance varChar(5), time varChar(5), pace varChar(5), tiredness char(1), mood char(1), PRIMARY KEY(id))";
+			PreparedStatement create = con.prepareStatement(createLog);
 			create.executeUpdate();
 			
 		}
@@ -166,11 +174,17 @@ class Main{
 			
 		}
 		finally{
-			System.out.println("Table created");
+			System.out.println("Log created");
 		}
 	}
 	
-	public static void addRun(Run run) throws Exception{
+	/**
+	 * This method adds an individual run to the log.
+	 * @param con Database to connect to
+	 * @param run Run to log
+	 * @throws Exception
+	 */
+	public static void addRun(Connection con, Run run) throws Exception{
 		
 
 		
@@ -181,7 +195,7 @@ class Main{
 		final String mood = Integer.toString(run.getMood());
 				
 		try{
-		   Connection con = getConnection();
+		   
 		   String insert = "INSERT INTO log (date, distance, time, pace, tiredness, mood) VALUES(" + "CURDATE()"  + "," + distance + "," + time + "," + pace + "," + tiredness + "," + mood + ")";
 		   PreparedStatement posted = con.prepareStatement(insert);
 		   posted.executeUpdate();
@@ -193,8 +207,22 @@ class Main{
 		}
 		
 		finally{
-			System.out.println("Insert complete");
+			System.out.println("Run logged");
 		}
+	}
+	
+public static void analyzeData(Connection con) throws Exception{
+	try{
+		PreparedStatement statement = con.prepareStatement("SELECT * FROM log");
+		ResultSet runs = statement.executeQuery();
+		while(runs.next()){
+			System.out.println(runs.getMetaData());
+		}
+	}
+	catch(Exception e){
+		System.out.println(e);
+	}
+	
 	}
 	
 	public static ArrayList<String> get() throws Exception{
@@ -226,13 +254,14 @@ class Main{
 		//print today's date
 		System.out.println(getDateToday());
 
-//		
+	
 //		//create new run
 		Run run = newRun();
 
-		
-		createTable();
-		addRun(run);
+		Connection con = getConnection();
+		createLog(con);
+		addRun(con, run);
+		analyzeData(con);
 		//get();
 
 		
