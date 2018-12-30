@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
+import com.mysql.jdbc.Statement;
+
 class Main{
 	
 	 
@@ -225,21 +227,21 @@ public static void analyzeData(Connection con) throws Exception{
 	
 	}
 	
-	public static ArrayList<String> get() throws Exception{
+	public static ArrayList<String> getInfo() throws Exception{
 		try{
 			Connection con = getConnection();
-			 PreparedStatement statement = con.prepareStatement("SELECT * FROM run");
+
+			 PreparedStatement statement = con.prepareStatement("SELECT * FROM log");
 			 ResultSet result = statement.executeQuery();
 			 ArrayList<String> array = new ArrayList<String>();
 			 result.next();
 			 while(result.next()){
-				 System.out.println(1);
-				 System.out.print(result.getString("date"));
-				 System.out.println(2);
-				 array.add(result.getString("date"));
-				 System.out.println(3);
+				 
+				 //array.add(result.getString("date"));
+				 System.out.println("Date: "+ result.getString("date"));
+				 System.out.println("Pace: " + result.getString("pace"));;
 			 }
-			 System.out.println("All records selected");
+			 
 			 return array;
 		}
 		
@@ -261,8 +263,8 @@ public static void analyzeData(Connection con) throws Exception{
 		Connection con = getConnection();
 		createLog(con);
 		addRun(con, run);
-		analyzeData(con);
-		//get();
+		//analyzeData(con);
+		getInfo();
 
 		
 	}
