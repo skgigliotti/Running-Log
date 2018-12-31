@@ -211,7 +211,12 @@ class Main{
 		}
 	}
 	
-public static void analyzeData(Connection con) throws Exception{
+/**
+ * This method prints out the avgs from runs in the past week, month, and year
+ * @param con database connection
+ * @throws Exception in case info cannot be quieried
+ */
+public static void printResults(Connection con) throws Exception{
 	System.out.println("This week");
 	System.out.println(" Avg Pace: " +  getAvgInfo(con, 7, "pace") + " min/mi");
 	System.out.println(" Avg Level of Run: " +  getAvgInfo(con, 7, "tiredness"));
@@ -225,6 +230,14 @@ public static void analyzeData(Connection con) throws Exception{
 	
 	}
 	
+/**
+ * This method uses the avg aggregate to get the averages for various columns of the log.
+ * @param con database connection
+ * @param amtTime number of days to avg over
+ * @param field the field to be queried (pace,tiredness, etc)
+ * @return Double the avg cut off at 2 decimal places
+ * @throws Exception
+ */
 	public static Double getAvgInfo(Connection con, int amtTime, String field) throws Exception{
 		try{
 			
@@ -246,15 +259,18 @@ public static void analyzeData(Connection con) throws Exception{
 	public static void main(String[] args) throws Exception {
 		//print today's date
 		System.out.println(getDateToday());
-
-	
-//		//create new run
-		//Run run = newRun();
+		
+		//create new run
+		Run run = newRun();
 
 		Connection con = getConnection();
-		//createLog(con);
-		//addRun(con, run);
-		analyzeData(con);
+		
+		//add info to the database
+		createLog(con);
+		addRun(con, run);
+		
+		//print the avgs for week, month, year
+		printResults(con);
 		
 
 		
