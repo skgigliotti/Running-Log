@@ -212,22 +212,28 @@ class Main{
 	}
 	
 public static void analyzeData(Connection con) throws Exception{
-	getMonthInfo(con);
+	System.out.println("This week");
+	System.out.println(" Avg Pace: " +  getAvgInfo(con, 7, "pace") + " min/mi");
+	System.out.println(" Avg Level of Run: " +  getAvgInfo(con, 7, "tiredness"));
+	System.out.println("\nThis month");
+	System.out.println(" Avg Pace: " +  getAvgInfo(con, 30, "pace") + " min/mi");
+	System.out.println(" Avg Level of Run: " +  getAvgInfo(con, 30, "tiredness"));
+	System.out.println("\nThis year");
+	System.out.println(" Avg Pace: " +  getAvgInfo(con, 365, "pace") + " min/mi");
+	System.out.println(" Avg Level of Run: " +  getAvgInfo(con, 365, "tiredness"));
+	
 	
 	}
 	
-	public static ArrayList<String> getMonthInfo(Connection con) throws Exception{
+	public static Double getAvgInfo(Connection con, int amtTime, String field) throws Exception{
 		try{
-			 PreparedStatement statementMonth = con.prepareStatement("SELECT avg(pace) FROM log WHERE date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)");
-			 ResultSet resultMonth = statementMonth.executeQuery();
-			 ArrayList<String> array = new ArrayList<String>();
-			 resultMonth.next();
-			System.out.println("Avg Pace for the month: " + 
-			 (((int)(Double.parseDouble(resultMonth.getString("avg(pace)"))*100))/100.0) +
-					" min/mi"			);
+			
+			 PreparedStatement statementMonth = con.prepareStatement("SELECT avg(" + field +") FROM log WHERE date >= DATE_SUB(CURDATE(), INTERVAL " + amtTime +" DAY)");
+			 ResultSet result = statementMonth.executeQuery();
 			 
-			 
-			 return array;
+			 result.next();
+			
+			 return ((((int)(Double.parseDouble(result.getString("avg(" + field +")"))*100))/100.0));
 		}
 		
 		catch(Exception e){
@@ -248,8 +254,8 @@ public static void analyzeData(Connection con) throws Exception{
 		Connection con = getConnection();
 		//createLog(con);
 		//addRun(con, run);
-		//analyzeData(con);
-		getMonthInfo(con);
+		analyzeData(con);
+		
 
 		
 	}
