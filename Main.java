@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-import com.mysql.jdbc.Statement;
-
 class Main{
 	
 	 
@@ -214,33 +212,20 @@ class Main{
 	}
 	
 public static void analyzeData(Connection con) throws Exception{
-	try{
-		PreparedStatement statement = con.prepareStatement("SELECT * FROM log");
-		ResultSet runs = statement.executeQuery();
-		while(runs.next()){
-			System.out.println(runs.getMetaData());
-		}
-	}
-	catch(Exception e){
-		System.out.println(e);
-	}
+	getMonthInfo(con);
 	
 	}
 	
-	public static ArrayList<String> getInfo() throws Exception{
+	public static ArrayList<String> getMonthInfo(Connection con) throws Exception{
 		try{
-			Connection con = getConnection();
-
-			 PreparedStatement statement = con.prepareStatement("SELECT * FROM log");
-			 ResultSet result = statement.executeQuery();
+			 PreparedStatement statementMonth = con.prepareStatement("SELECT avg(pace) FROM log WHERE date >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)");
+			 ResultSet resultMonth = statementMonth.executeQuery();
 			 ArrayList<String> array = new ArrayList<String>();
-			 result.next();
-			 while(result.next()){
-				 
-				 //array.add(result.getString("date"));
-				 System.out.println("Date: "+ result.getString("date"));
-				 System.out.println("Pace: " + result.getString("pace"));;
-			 }
+			 resultMonth.next();
+			System.out.println("Avg Pace for the month: " + 
+			 (((int)(Double.parseDouble(resultMonth.getString("avg(pace)"))*100))/100.0) +
+					" min/mi"			);
+			 
 			 
 			 return array;
 		}
@@ -258,13 +243,13 @@ public static void analyzeData(Connection con) throws Exception{
 
 	
 //		//create new run
-		Run run = newRun();
+		//Run run = newRun();
 
 		Connection con = getConnection();
-		createLog(con);
-		addRun(con, run);
+		//createLog(con);
+		//addRun(con, run);
 		//analyzeData(con);
-		getInfo();
+		getMonthInfo(con);
 
 		
 	}
