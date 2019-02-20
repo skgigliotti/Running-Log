@@ -220,13 +220,15 @@ public static void printResults(Connection con) throws Exception{
 	System.out.println("This week");
 	System.out.println(" Avg Pace: " +  getAvgInfo(con, 7, "pace") + " min/mi");
 	System.out.println(" Avg Level of Run: " +  getAvgInfo(con, 7, "tiredness"));
+	System.out.println(" Avg Mental Wellness: " +  getAvgInfo(con, 7, "mood"));
 	System.out.println("\nThis month");
 	System.out.println(" Avg Pace: " +  getAvgInfo(con, 30, "pace") + " min/mi");
 	System.out.println(" Avg Level of Run: " +  getAvgInfo(con, 30, "tiredness"));
+	System.out.println(" Avg Mental Wellness: " +  getAvgInfo(con, 30, "mood"));
 	System.out.println("\nThis year");
 	System.out.println(" Avg Pace: " +  getAvgInfo(con, 365, "pace") + " min/mi");
 	System.out.println(" Avg Level of Run: " +  getAvgInfo(con, 365, "tiredness"));
-	
+	System.out.println(" Avg Mental Wellness: " +  getAvgInfo(con, 365, "mood"));
 	
 	}
 	
